@@ -26,7 +26,6 @@ public class Anggota extends javax.swing.JFrame {
         initComponents();
         Connect();
         LoadProdi();
-        LoadUser();
         LoadTable();
     }
 
@@ -90,19 +89,6 @@ public class Anggota extends javax.swing.JFrame {
         }
     }
 
-    public void LoadUser() {
-        String sql = "SELECT * FROM users";
-        try {
-            pst = con.prepareStatement(sql);
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                String name = rs.getString("USERNAME");
-                cboUser.addItem(name);
-            }
-        } catch (Exception e) {
-            
-        }
-    }
 
     public void Search(String str) {
         DefaultTableModel model = (DefaultTableModel) tblAnggota.getModel();
@@ -151,8 +137,6 @@ public class Anggota extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAlamat = new javax.swing.JTextArea();
-        jLabel16 = new javax.swing.JLabel();
-        cboUser = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -369,22 +353,10 @@ public class Anggota extends javax.swing.JFrame {
         jPanel3.add(jScrollPane2);
         jScrollPane2.setBounds(110, 530, 270, 86);
 
-        jLabel16.setText("User");
-        jPanel3.add(jLabel16);
-        jLabel16.setBounds(30, 630, 80, 30);
-
-        cboUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboUserActionPerformed(evt);
-            }
-        });
-        jPanel3.add(cboUser);
-        cboUser.setBounds(110, 630, 270, 30);
-
         getContentPane().add(jPanel3);
         jPanel3.setBounds(171, 0, 640, 690);
 
-        setSize(new java.awt.Dimension(823, 705));
+        setSize(new java.awt.Dimension(823, 669));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -400,28 +372,22 @@ public class Anggota extends javax.swing.JFrame {
         String noTelp = txtTelepon.getText();
         String email = txtEmail.getText();
         String alamat = txtAlamat.getText();
-        String user = cboUser.getSelectedItem().toString();
 
         try {
             String sql = "SELECT id_prodi FROM prodi WHERE nama_prodi='" + prodi + "'";
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
 
-            String sql1 = "SELECT UID FROM users WHERE username='" + user + "'";
-            PreparedStatement pst1 = con.prepareStatement(sql1);
-            ResultSet rs1 = pst1.executeQuery();
-            while (rs.next() && rs1.next()) {
+            while (rs.next()) {
                 String id_prodi = rs.getString("id_prodi");
-                String id_user = rs1.getString("UID");
 
-                pst = con.prepareStatement("INSERT INTO anggota(NIM,nama_anggota,id_prodi,no_telepon,email,alamat,id_user) VALUES(?,?,?,?,?,?,?)");
+                pst = con.prepareStatement("INSERT INTO anggota(NIM,nama_anggota,id_prodi,no_telepon,email,alamat) VALUES(?,?,?,?,?,?)");
                 pst.setString(1, nim);
                 pst.setString(2, nama);
                 pst.setString(3, id_prodi);
                 pst.setString(4, noTelp);
                 pst.setString(5, email);
                 pst.setString(6, alamat);
-                pst.setString(7, id_user);
                 int k = pst.executeUpdate();
 
                 if (k == 1) {
@@ -588,10 +554,6 @@ public class Anggota extends javax.swing.JFrame {
         h.setVisible(true);
     }//GEN-LAST:event_lblLaporanMouseClicked
 
-    private void cboUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboUserActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -634,7 +596,6 @@ public class Anggota extends javax.swing.JFrame {
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cboProdi;
-    private javax.swing.JComboBox<String> cboUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -642,7 +603,6 @@ public class Anggota extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
