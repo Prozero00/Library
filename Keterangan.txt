@@ -1,0 +1,3 @@
+XAMPP versi 3.3.0
+IDE Apache NetBeans 14
+Nama database : db_perpustakaan
